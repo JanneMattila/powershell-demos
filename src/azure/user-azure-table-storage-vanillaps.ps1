@@ -26,9 +26,8 @@ Invoke-RestMethod `
     -ErrorAction SilentlyContinue
 
 while ($true) {
-    if ($token.expires_on -gt [DateTimeOffset]::UtcNow.AddMinutes(-5).ToUnixTimeSeconds()) {
+    if ($token.expires_on -lt [DateTimeOffset]::UtcNow.AddMinutes(5).ToUnixTimeSeconds()) {
         "Access token expired"
-        break
         $token = Invoke-RestMethod `
             -Headers @{ Metadata = "true" } `
             -Uri "http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https://$storageName.table.core.windows.net/"
@@ -52,5 +51,5 @@ while ($true) {
         -Token $secureAccessToken `
         -Uri $url
 
-    Start-Sleep -Seconds 60
+    Start-Sleep -Seconds 1
 }
