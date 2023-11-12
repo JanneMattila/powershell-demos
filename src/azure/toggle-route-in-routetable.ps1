@@ -3,7 +3,7 @@ $routeTable = Get-AzRouteTable -ResourceGroupName "rg-vnet-service-endpoints-dem
 Add-AzRouteConfig -Name "to-nva" -AddressPrefix 0.0.0.0/0 -NextHopType "VirtualAppliance" -NextHopIpAddress 10.10.10.10 -RouteTable $routeTable 
 $routeTable | Set-AzRouteTable
 
-Start-Sleep 120
+Start-Sleep -Seconds 120
 
 # Remove route
 $routeTable | Remove-AzRouteConfig -Name "to-nva" | Set-AzRouteTable

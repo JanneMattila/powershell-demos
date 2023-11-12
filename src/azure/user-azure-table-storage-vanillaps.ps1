@@ -26,7 +26,7 @@ Invoke-RestMethod `
     -ErrorAction SilentlyContinue
 
 while ($true) {
-    if ($token.expires_on -lt [DateTimeOffset]::UtcNow.AddMinutes(-5).ToUnixTimeSeconds()) {
+    if ($token.expires_on -gt [DateTimeOffset]::UtcNow.AddMinutes(-5).ToUnixTimeSeconds()) {
         "Access token expired"
         break
         $token = Invoke-RestMethod `
