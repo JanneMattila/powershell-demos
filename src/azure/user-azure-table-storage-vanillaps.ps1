@@ -49,7 +49,8 @@ while ($true) {
         -Authentication Bearer `
         -Headers $headers `
         -Token $secureAccessToken `
-        -Uri $url
+        -TimeoutSec 5 `
+        -Uri $url | Out-Null
 
     Start-Sleep -Seconds 1
 }
