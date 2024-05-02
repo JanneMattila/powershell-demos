@@ -1,0 +1,33 @@
+schedules:
+  - cron: "0 */12 * * *"
+    displayName: Automated scan two times a day
+    branches:
+      include:
+        - main
+    always: "true" # No changes required to trigger the pipeline
+
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+  paths:
+    include:
+      - src/automation-demo
+
+name: 1.0.$(Rev:r)
+jobs:
+  - job: Automation
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+      # https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/azure-powershell-v5?view=azure-pipelines
+      - task: AzurePowerShell@5
+        inputs:
+          azureSubscription: "$(AzureServiceConnectionName)"
+          ScriptType: "FilePath"
+          ScriptPath: "src/automation-demo/run.ps1"
+          errorActionPreference: "stop"
+          failOnStandardError: true
+          pwsh: true
+          azurePowerShellVersion: "LatestVersion"
